@@ -9,6 +9,12 @@
 ![npm](https://img.shields.io/npm/dt/flutterwave-node-v3)
 ![NPM](https://img.shields.io/npm/l/flutterwave-node-v3)
 
+## Notice
+The major reason for this fork is for the adoption of typescript and type support in the Flutterwave NodeJS Project 
+(see: Flutterwave/Node-v3#156, Flutterwave/Node-v3#139, Flutterwave/Node-v3#69, Flutterwave/Node-v3#64, Flutterwave/Node-v3#25 - Since 2020).
+
+This repo has two branches: This branch uses .d.ts files and JSDoc for adding type intellisense to the code. For a full typescript implementation see the dev branch.
+
 ## Introduction
 
 The Node library provides easy access to Flutterwave for Business (F4B) v3 APIs for your Node apps. It abstracts the complexity involved in direct integration and allows you to make quick calls to the APIs.
@@ -26,16 +32,19 @@ Available features include:
 
 
 ## Table of Content
-1. [Requirements](#requirements)
-2. [Installation](#installation)
-3. [Initialization](#initialization)
-4. [Usage](#usage)
-5. [Testing](#testing)
-6. [Debugging Errors](#debugging-errors)
-7. [Support](#support)
-8. [Contribution guidelines](#contribution-guidelines)
-9. [License](#license)
-10. [Changelog](/CHANGELOG.md)
+- [Flutterwave v3 NodeJS Library](#flutterwave-v3-nodejs-library)
+  - [Notice](#notice)
+  - [Introduction](#introduction)
+  - [Table of Content](#table-of-content)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Initialization](#initialization)
+  - [Usage](#usage)
+  - [Testing](#testing)
+  - [Debugging Errors](#debugging-errors)
+  - [Support](#support)
+  - [Contribution guidelines](#contribution-guidelines)
+  - [License](#license)
 
 ## Requirements
 
