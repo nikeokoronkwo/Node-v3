@@ -107,7 +107,7 @@ const updateSchema = joi.object({
 const updatePlanSchema = joi.object({
   id: joi.string().required(),
   name: joi.string().trim().max(150).required(),
-  status: joi.string().valid('active', 'cancelled').required()
+  status: joi.string().valid('active', 'cancelled').required(),
 });
 
 // update card token
@@ -166,5 +166,5 @@ module.exports = {
   withdrawalSchema,
   validateSchema,
   initiateBVNSchema,
-  verifyBVNSchema
+  verifyBVNSchema,
 };

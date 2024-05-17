@@ -24,17 +24,17 @@ describe('#Rave Payment-plan', function () {
   let paymentPlanStub;
 
   beforeEach(() => {
-    paymentPlanInstance = new PaymentPlan(ravebase)
+    paymentPlanInstance = new PaymentPlan(ravebase);
   });
 
   afterEach(() => {
     sinon.restore();
   });
 
-    it('should update a payment plan', async function () {
-      this.timeout(10000);
+  it('should update a payment plan', async function () {
+    this.timeout(10000);
 
-      const updatePaymentPlanStub = sinon
+    const updatePaymentPlanStub = sinon
       .stub(paymentPlanInstance, 'update')
       .resolves({
         status: 'success',
@@ -48,31 +48,31 @@ describe('#Rave Payment-plan', function () {
           amount: 0,
           duration: 12,
           interval: 'monthly',
-          created_at: '2023-03-15T00:34:50.000Z'
-        }
-      })
+          created_at: '2023-03-15T00:34:50.000Z',
+        },
+      });
 
-      var payload = {
-        id: "34185",
-        name: "A sample KES monthly plan",
-        status: "active"
-      };
-      var resp = await paymentPlanInstance.update(payload);
-      expect(updatePaymentPlanStub).to.have.been.calledOnce;
+    var payload = {
+      id: '34185',
+      name: 'A sample KES monthly plan',
+      status: 'active',
+    };
+    var resp = await paymentPlanInstance.update(payload);
+    expect(updatePaymentPlanStub).to.have.been.calledOnce;
 
-      expect(resp).to.have.property('status', 'success');
-      expect(resp).to.have.property('message', 'Payment plan updated');
-      expect(resp).to.have.property('data');
-  
-      expect(resp.data).to.have.property('id', 34185);
-      expect(resp.data).to.have.property('name', 'A sample KES monthly plan');
-      expect(resp.data).to.have.property('status', 'active');
-    });
+    expect(resp).to.have.property('status', 'success');
+    expect(resp).to.have.property('message', 'Payment plan updated');
+    expect(resp).to.have.property('data');
 
-    it("should create a payment plan", async function () {
-      this.timeout(10000);
+    expect(resp.data).to.have.property('id', 34185);
+    expect(resp.data).to.have.property('name', 'A sample KES monthly plan');
+    expect(resp.data).to.have.property('status', 'active');
+  });
 
-      const createPaymentPlanStub = sinon
+  it('should create a payment plan', async function () {
+    this.timeout(10000);
+
+    const createPaymentPlanStub = sinon
       .stub(paymentPlanInstance, 'create')
       .resolves({
         status: 'success',
@@ -86,32 +86,31 @@ describe('#Rave Payment-plan', function () {
           status: 'active',
           currency: 'NGN',
           plan_token: 'rpp_cd93e2fa88e065b960bf',
-          created_at: '2023-07-04T09:16:42.000Z'
-        }
-      })
+          created_at: '2023-07-04T09:16:42.000Z',
+        },
+      });
 
+    var payload = {
+      amount: '100',
+      name: 'SDK test Plan',
+      interval: 'monthly',
+    };
+    var resp = await paymentPlanInstance.create(payload);
+    expect(createPaymentPlanStub).to.have.been.calledOnce;
 
-      var payload = {
-        amount: "100",
-        name: "SDK test Plan", 
-        interval: "monthly"
-      };
-      var resp = await paymentPlanInstance.create(payload);
-      expect(createPaymentPlanStub).to.have.been.calledOnce;
+    expect(resp).to.have.property('status', 'success');
+    expect(resp).to.have.property('message', 'Payment plan created');
+    expect(resp).to.have.property('data');
 
-      expect(resp).to.have.property('status', 'success');
-      expect(resp).to.have.property('message', 'Payment plan created');
-      expect(resp).to.have.property('data');
-  
-      expect(resp.data).to.have.property('id');
-      expect(resp.data).to.have.property('currency');
-      expect(resp.data).to.have.property('status', 'active');
-    });
+    expect(resp.data).to.have.property('id');
+    expect(resp.data).to.have.property('currency');
+    expect(resp.data).to.have.property('status', 'active');
+  });
 
-    it('should get all payment plans', async function () {
-      this.timeout(10000);
+  it('should get all payment plans', async function () {
+    this.timeout(10000);
 
-      const getAllPaymentPlanStub = sinon
+    const getAllPaymentPlanStub = sinon
       .stub(paymentPlanInstance, 'get_all')
       .resolves({
         status: 'success',
@@ -127,7 +126,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_0aac3d0aa3f0c18565c0',
-            created_at: '2023-06-14T11:57:26.000Z'
+            created_at: '2023-06-14T11:57:26.000Z',
           },
           {
             id: 37828,
@@ -138,7 +137,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_27ea9a4ef60dae5e7fc8',
-            created_at: '2023-06-14T11:48:26.000Z'
+            created_at: '2023-06-14T11:48:26.000Z',
           },
           {
             id: 36074,
@@ -149,7 +148,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_134b476d4d1f9181a219',
-            created_at: '2023-05-22T14:15:05.000Z'
+            created_at: '2023-05-22T14:15:05.000Z',
           },
           {
             id: 34444,
@@ -160,7 +159,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_89b6c76c0394af004913',
-            created_at: '2023-03-26T21:05:26.000Z'
+            created_at: '2023-03-26T21:05:26.000Z',
           },
           {
             id: 34185,
@@ -171,7 +170,7 @@ describe('#Rave Payment-plan', function () {
             status: 'active',
             currency: 'NGN',
             plan_token: 'rpp_2f711270c4de5c2393d3',
-            created_at: '2023-03-15T00:34:50.000Z'
+            created_at: '2023-03-15T00:34:50.000Z',
           },
           {
             id: 33857,
@@ -182,7 +181,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_0d087b5a4644f78252ad',
-            created_at: '2023-03-03T14:29:37.000Z'
+            created_at: '2023-03-03T14:29:37.000Z',
           },
           {
             id: 33856,
@@ -193,7 +192,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_570f8a07e6c190a91f4f',
-            created_at: '2023-03-03T14:29:36.000Z'
+            created_at: '2023-03-03T14:29:36.000Z',
           },
           {
             id: 33855,
@@ -204,7 +203,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_4f2926d1f3d1a56915a1',
-            created_at: '2023-03-03T14:29:33.000Z'
+            created_at: '2023-03-03T14:29:33.000Z',
           },
           {
             id: 33850,
@@ -215,7 +214,7 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_98a4ebf8b3dfc7f494a1',
-            created_at: '2023-03-03T14:13:47.000Z'
+            created_at: '2023-03-03T14:13:47.000Z',
           },
           {
             id: 33849,
@@ -226,92 +225,91 @@ describe('#Rave Payment-plan', function () {
             status: 'cancelled',
             currency: 'NGN',
             plan_token: 'rpp_b6cc20cb87ee9a64d879',
-            created_at: '2023-03-03T14:13:39.000Z'
-          }
-        ]
-      })
-
-      var payload = {
-      };
-      var resp = await paymentPlanInstance.get_all(payload);
-      expect(getAllPaymentPlanStub).to.have.been.calledOnce;
-
-      expect(resp).to.have.property('status', 'success');
-      expect(resp).to.have.property('message', 'Payment plans fetched');
-      expect(resp).to.have.property('meta');
-      expect(resp).to.have.property('data');
-  
-      expect(resp.data[0]).to.have.property('id');
-      expect(resp.data[0]).to.have.property('status');
-    });
-
-    it('should get a payment plan', async function () {
-        this.timeout(10000);
-  
-        const getAPaymentPlanStub = sinon
-        .stub(paymentPlanInstance, 'get_plan')
-        .resolves({
-            status: 'success',
-            message: 'Payment plan fetched',
-            data: {
-              id: 52045,
-              name: 'SDK test Plan',
-              amount: 100,
-              interval: 'monthly',
-              duration: 0,
-              status: 'active',
-              currency: 'NGN',
-              plan_token: 'rpp_cd93e2fa88e065b960bf',
-              created_at: '2023-07-04T09:16:42.000Z'
-            }
-          })
-
-        var payload = {
-            id: "52045"
-        };
-        var resp = await paymentPlanInstance.get_plan(payload);
-        expect(getAPaymentPlanStub).to.have.been.calledOnce;
-
-        expect(resp).to.have.property('status', 'success');
-        expect(resp).to.have.property('message', 'Payment plan fetched');
-        expect(resp).to.have.property('data');
-    
-        expect(resp.data).to.have.property('id');
-        expect(resp.data).to.have.property('status');
+            created_at: '2023-03-03T14:13:39.000Z',
+          },
+        ],
       });
 
-      it('should cancel a payment plan', async function () {
-        this.timeout(10000);
+    var payload = {};
+    var resp = await paymentPlanInstance.get_all(payload);
+    expect(getAllPaymentPlanStub).to.have.been.calledOnce;
 
-        const cancelPaymentPlanStub = sinon
-        .stub(paymentPlanInstance, 'cancel')
-        .resolves({
-            status: 'success',
-            message: 'Payment plan cancelled',
-            data: {
-              id: 34185,
-              name: 'A sample KES monthly plan',
-              plan_token: 'rpp_2f711270c4de5c2393d3',
-              status: 'cancelled',
-              currency: 'NGN',
-              amount: 0,
-              duration: 12,
-              interval: 'monthly',
-              created_at: '2023-03-15T00:34:50.000Z'
-            }
-          })
-  
-        var payload = {
-            id: "34185"
-        };
-        var resp = await paymentPlanInstance.cancel(payload);
-        expect(cancelPaymentPlanStub).to.have.been.calledOnce;
+    expect(resp).to.have.property('status', 'success');
+    expect(resp).to.have.property('message', 'Payment plans fetched');
+    expect(resp).to.have.property('meta');
+    expect(resp).to.have.property('data');
 
-        expect(resp).to.have.property('status', 'success');
-        expect(resp).to.have.property('message', 'Payment plan cancelled');
-        expect(resp).to.have.property('data');
-    
-        expect(resp.data).to.have.property('id');
-        expect(resp.data).to.have.property('status', 'cancelled');
+    expect(resp.data[0]).to.have.property('id');
+    expect(resp.data[0]).to.have.property('status');
+  });
+
+  it('should get a payment plan', async function () {
+    this.timeout(10000);
+
+    const getAPaymentPlanStub = sinon
+      .stub(paymentPlanInstance, 'get_plan')
+      .resolves({
+        status: 'success',
+        message: 'Payment plan fetched',
+        data: {
+          id: 52045,
+          name: 'SDK test Plan',
+          amount: 100,
+          interval: 'monthly',
+          duration: 0,
+          status: 'active',
+          currency: 'NGN',
+          plan_token: 'rpp_cd93e2fa88e065b960bf',
+          created_at: '2023-07-04T09:16:42.000Z',
+        },
       });
+
+    var payload = {
+      id: '52045',
+    };
+    var resp = await paymentPlanInstance.get_plan(payload);
+    expect(getAPaymentPlanStub).to.have.been.calledOnce;
+
+    expect(resp).to.have.property('status', 'success');
+    expect(resp).to.have.property('message', 'Payment plan fetched');
+    expect(resp).to.have.property('data');
+
+    expect(resp.data).to.have.property('id');
+    expect(resp.data).to.have.property('status');
+  });
+
+  it('should cancel a payment plan', async function () {
+    this.timeout(10000);
+
+    const cancelPaymentPlanStub = sinon
+      .stub(paymentPlanInstance, 'cancel')
+      .resolves({
+        status: 'success',
+        message: 'Payment plan cancelled',
+        data: {
+          id: 34185,
+          name: 'A sample KES monthly plan',
+          plan_token: 'rpp_2f711270c4de5c2393d3',
+          status: 'cancelled',
+          currency: 'NGN',
+          amount: 0,
+          duration: 12,
+          interval: 'monthly',
+          created_at: '2023-03-15T00:34:50.000Z',
+        },
+      });
+
+    var payload = {
+      id: '34185',
+    };
+    var resp = await paymentPlanInstance.cancel(payload);
+    expect(cancelPaymentPlanStub).to.have.been.calledOnce;
+
+    expect(resp).to.have.property('status', 'success');
+    expect(resp).to.have.property('message', 'Payment plan cancelled');
+    expect(resp).to.have.property('data');
+
+    expect(resp.data).to.have.property('id');
+    expect(resp.data).to.have.property('status', 'cancelled');
+  });
 });

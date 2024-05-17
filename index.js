@@ -23,21 +23,20 @@ const virtual_card = require('./lib/rave.virtual_cards');
  * Rave class
  */
 class Rave {
-
   /**
    * Constructor to instantiate new rave
-   * @param {*} public_key 
-   * @param {*} public_secret 
-   * @param {*} base_url_or_production_flag 
+   * @param {*} public_key
+   * @param {*} public_secret
+   * @param {*} base_url_or_production_flag
    * @returns {void}
-   * @constructor 
+   * @constructor
    */
   constructor(public_key, public_secret, base_url_or_production_flag) {
     /** @type {base} */
     const ravebase = new base(
       public_key,
       public_secret,
-      base_url_or_production_flag
+      base_url_or_production_flag,
     );
 
     /** @type {bank} */

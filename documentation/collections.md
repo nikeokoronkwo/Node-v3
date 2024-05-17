@@ -7,6 +7,7 @@
 We recommend reading the main readme first, to understand the requirements for using the library and how to initiate this in your apps. This guide assumes you've read that.
 
 Collect payments from your users via any of these methods:
+
 1. [Cards](#card-collections)
 2. [Bank transfers](#bank-transfers)
 3. [Direct debit (Nigerian bank accounts)](#direct-debit-nigerian-bank-account)
@@ -32,7 +33,6 @@ There are three steps involved in collecting payments from your users:
 
 Read more about the steps [here](https://developer.flutterwave.com/docs/direct-charge/overview)
 
-
 ## Card Collections
 
 This section describes how you can collect card payments in the SDK. You can learn more about the payment method [here](https://developer.flutterwave.com/docs/direct-charge/card).
@@ -43,69 +43,65 @@ This section describes how you can collect card payments in the SDK. You can lea
 const Flutterwave = require('flutterwave-node-v3');
 const open = require('open');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 // Initiating the transaction
 const payload = {
-    "card_number": "5531886652142950",
-    "cvv": "564",
-    "expiry_month": "09",
-    "expiry_year": "21",
-    "currency": "NGN",
-    "amount": "100",
-    "redirect_url": "https://www.google.com",
-    "fullname": "Flutterwave Developers",
-    "email": "developers@flutterwavego.com",
-    "phone_number": "09000000000",
-    "enckey": process.env.FLW_ENCRYPTION_KEY,
-    "tx_ref": "example01",
-}
+  card_number: '5531886652142950',
+  cvv: '564',
+  expiry_month: '09',
+  expiry_year: '21',
+  currency: 'NGN',
+  amount: '100',
+  redirect_url: 'https://www.google.com',
+  fullname: 'Flutterwave Developers',
+  email: 'developers@flutterwavego.com',
+  phone_number: '09000000000',
+  enckey: process.env.FLW_ENCRYPTION_KEY,
+  tx_ref: 'example01',
+};
 
 const chargeCard = async () => {
-    try {
-        const response = await flw.Charge.card(payload)
-        console.log(response)
+  try {
+    const response = await flw.Charge.card(payload);
+    console.log(response);
 
-        // Authorizing transactions
+    // Authorizing transactions
 
-        // For PIN transactions
-        if (response.meta.authorization.mode === 'pin') {
-            let payload2 = payload
-            payload2.authorization = {
-                "mode": "pin",
-                "fields": [
-                    "pin"
-                ],
-                "pin": 3310
-            }
-            const reCallCharge = await flw.Charge.card(payload2)
+    // For PIN transactions
+    if (response.meta.authorization.mode === 'pin') {
+      let payload2 = payload;
+      payload2.authorization = {
+        mode: 'pin',
+        fields: ['pin'],
+        pin: 3310,
+      };
+      const reCallCharge = await flw.Charge.card(payload2);
 
-            // Add the OTP to authorize the transaction
-            const callValidate = await flw.Charge.validate({
-                "otp": "12345",
-                "flw_ref": reCallCharge.data.flw_ref
-            })
-            console.log(callValidate)
-
-        }
-        // For 3DS or VBV transactions, redirect users to their issue to authorize the transaction
-        if (response.meta.authorization.mode === 'redirect') {
-
-            var url = response.meta.authorization.redirect
-            open(url)
-        }
-
-        console.log(response)
-
-
-    } catch (error) {
-        console.log(error)
+      // Add the OTP to authorize the transaction
+      const callValidate = await flw.Charge.validate({
+        otp: '12345',
+        flw_ref: reCallCharge.data.flw_ref,
+      });
+      console.log(callValidate);
     }
-}
+    // For 3DS or VBV transactions, redirect users to their issue to authorize the transaction
+    if (response.meta.authorization.mode === 'redirect') {
+      var url = response.meta.authorization.redirect;
+      open(url);
+    }
+
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 chargeCard();
 ```
-
 
 ## Bank Transfers
 
@@ -113,37 +109,36 @@ This section covers how you can collect payments made via bank transfers. We go 
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const  bank_trf = async () => {
+const bank_trf = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-1585230950508',
+      amount: '1500',
+      email: 'johnmadakin@gmail.com',
+      phone_number: '054709929220',
+      currency: 'NGN',
+      client_ip: '154.123.220.1',
+      device_fingerprint: '62wd23423rq324323qew1',
+      narration: 'All star college salary for May',
+      is_permanent: false,
+      expires: 3600,
+    };
 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-1585230950508",
-            "amount": "1500",
-            "email": "johnmadakin@gmail.com",
-            "phone_number": "054709929220",
-            "currency": "NGN",
-            "client_ip": "154.123.220.1",
-            "device_fingerprint": "62wd23423rq324323qew1",
-            "narration": "All star college salary for May",
-            "is_permanent": false,
-            "expires": 3600
-        }
-
-        const response = await flw.Charge.bank_transfer(payload)
-        console.log(response);
-
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Charge.bank_transfer(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 bank_trf();
-
 ```
+
 Sample Response
 
 ```javascript
@@ -164,40 +159,38 @@ Sample Response
 }
 ```
 
-
 ## Direct debit (Nigerian bank account)
 
 This section covers how you can collect payments made via your customers' bank accounts. The customer authorizes the payment with their bank, and the money is debited from their account. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/bank-account).
 
 ```javascript
-
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const charge_ng_acct = async () => {
-    
-    try {
+  try {
+    const payload = {
+      tx_ref: 'MC-1585230ew9v5050e0',
+      amount: '300',
+      currency: 'NGN',
+      email: 'johndoe@gmail.com',
+      phone_number: '08074568890',
+      fullname: 'john doe',
+    };
 
-        const payload = {
-            "tx_ref":"MC-1585230ew9v5050e0",
-            "amount":"300",
-            "currency":"NGN",
-            "email":"johndoe@gmail.com",
-            "phone_number":"08074568890",
-            "fullname":"john doe"
-        }
-
-        const response = await flw.Charge.ng(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Charge.ng(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 charge_ng_acct();
-
 ```
+
 Sample Response
 
 ```javascript
@@ -248,35 +241,34 @@ This section covers how you make EUR and GBP collections via your customers' ban
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const charge_uk_acct = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-1585230ew9v5050e8',
+      amount: '10',
+      currency: 'GBP',
+      email: 'olufemi@flw.com',
+      phone_number: '0902620185',
+      fullname: 'Olufemi Obafunmiso',
+      redirect_url: 'https://flutterwave.ng',
+      is_token_io: 1,
+    };
 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-1585230ew9v5050e8",
-            "amount": "10",
-            "currency": "GBP",
-            "email": "olufemi@flw.com",
-            "phone_number": "0902620185",
-            "fullname": "Olufemi Obafunmiso",
-            "redirect_url": "https://flutterwave.ng",
-            "is_token_io": 1
-        }
-
-        const response = await flw.Charge.uk(payload)
-        console.log(response);
-
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Charge.uk(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 charge_uk_acct();
-
 ```
+
 Sample Response
 
 ```javascript
@@ -322,43 +314,44 @@ Sample Response
 
 ## ACH Payement
 
-This shows you how to accept ZAR and USD  ACH charges from your customers.  We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/ach-payment).
+This shows you how to accept ZAR and USD ACH charges from your customers. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/ach-payment).
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const ach_payment = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-1585230ew9v5050e8',
+      amount: '100',
+      type: 'ach_payment',
+      currency: 'ZAR',
+      country: 'SA',
+      email: 'olufemi@flw.com',
+      phone_number: '0902620185',
+      fullname: 'Olufemi Obafunmiso',
+      client_ip: '154.123.220.1',
+      redirect_url: 'http://olufemiobafunmiso.com/u/payment-completed',
+      device_fingerprint: '62wd23423rq324323qew1',
+      meta: {
+        flightID: '123949494DC',
+      },
+    };
 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-1585230ew9v5050e8",
-            "amount": "100",
-            "type": "ach_payment",
-            "currency": "ZAR",
-            "country": "SA",
-            "email": "olufemi@flw.com",
-            "phone_number": "0902620185",
-            "fullname": "Olufemi Obafunmiso",
-            "client_ip": "154.123.220.1",
-            "redirect_url": "http://olufemiobafunmiso.com/u/payment-completed",
-            "device_fingerprint": "62wd23423rq324323qew1",
-            "meta": {
-                "flightID": "123949494DC"
-            }
-        }
-
-        const response = await flw.Charge.ach(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Charge.ach(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 ach_payment();
 ```
+
 Sample Response
 
 ```javascript
@@ -400,7 +393,7 @@ Sample Response
 
 ## USSD
 
-This shows you how to accept payments via Direct USSD charge. You call our API to create a charge, then your customer completes the payment by dialling their bank's USSD code on their mobile phone.  We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/ussd).
+This shows you how to accept payments via Direct USSD charge. You call our API to create a charge, then your customer completes the payment by dialling their bank's USSD code on their mobile phone. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/ussd).
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
@@ -430,6 +423,7 @@ const ussd = async () => {
 
 ussd();
 ```
+
 Sample Response
 
 ```javascript
@@ -513,32 +507,32 @@ This describes how to collect payments via Mpesa. Read more about Mpesa payments
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const mpesa =  async () =>{
+const mpesa = async () => {
+  try {
+    const payload = {
+      tx_ref: 'test987',
+      amount: '10',
+      currency: 'KES',
+      email: 'stefan.wexler@hotmail.eu',
+      phone_number: '25454709929220',
+      fullname: 'Yolande Aglaé Colbert',
+    };
 
-    try {
+    const response = await flw.MobileMoney.mpesa(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-        const payload = {
-            "tx_ref": "test987",
-            "amount": "10",
-            "currency": "KES",
-            "email": "stefan.wexler@hotmail.eu",
-            "phone_number": "25454709929220",
-            "fullname": "Yolande Aglaé Colbert"
-        }
-
-       const response =  await flw.MobileMoney.mpesa(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                            
-   
-}
- 
- 
 mpesa();
 ```
+
 Sample Response
 
 ```javascript
@@ -584,36 +578,36 @@ This describes how to collect payments via Ghana mobile money. We go into more d
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const Gh_mobilemoney =  async () =>{
- 
-    try {
+const Gh_mobilemoney = async () => {
+  try {
+    const payload = {
+      tx_ref: 'test789',
+      amount: '150',
+      currency: 'GHS',
+      voucher: '143256743',
+      network: 'VODAFONE',
+      email: 'stefan.wexler@hotmail.eu',
+      phone_number: '054709929220',
+      fullname: 'Yolande Aglaé Colbert',
+      client_ip: '154.123.220.1',
+      device_fingerprint: '62wd23423rq324323qew1',
+      meta: {
+        flightID: '213213AS',
+        anotherBanger: 'Rema or Spyce :)',
+      },
+    };
 
-        const payload = {
-            "tx_ref": "test789",
-            "amount": "150",
-            "currency": "GHS",
-            "voucher": "143256743",
-            "network": "VODAFONE",
-            "email": "stefan.wexler@hotmail.eu",
-            "phone_number": "054709929220",
-            "fullname": "Yolande Aglaé Colbert",
-            "client_ip": "154.123.220.1",
-            "device_fingerprint": "62wd23423rq324323qew1",
-            "meta": {
-                "flightID": "213213AS",
-                "anotherBanger": "Rema or Spyce :)"
-            }
-        }
-
-       const response =  await flw.MobileMoney.ghana(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                            
-  
-}
+    const response = await flw.MobileMoney.ghana(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 Gh_mobilemoney();
 ```
@@ -638,41 +632,41 @@ Sample Response
 **Redirect customer to the redirect link returned in the charge initiation response.**
 **NB: OTP on staging (TEST MODE) is `123456`**
 
-
 ## Rwanda mobile money
 
 This describes how to collect payments via Rwanda mobile money. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/rwanda-mobile-money).
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const rw_mobile_money =  async ()=>{
- 
-    try {
+const rw_mobile_money = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-158523s09v5050e8',
+      order_id: 'USS_URG_893982923s2323',
+      amount: '1500',
+      currency: 'RWF',
+      email: 'olufemi@flw.com',
+      phone_number: '054709929220',
+      fullname: 'John Madakin',
+    };
 
-        const payload = {
-            "tx_ref": "MC-158523s09v5050e8", 
-            "order_id": "USS_URG_893982923s2323",
-            "amount": "1500",
-            "currency": "RWF",
-            "email": "olufemi@flw.com",
-            "phone_number": "054709929220",
-            "fullname": "John Madakin"
-        }
-
-       const response =  await flw.MobileMoney.rwanda(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                            
-   
-}
+    const response = await flw.MobileMoney.rwanda(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 rw_mobile_money();
 ```
 
 Sample Response
+
 ```javascript
 {
     "status": "success",
@@ -695,36 +689,37 @@ This describes how to collect payments via Uganda mobile money. We go into more 
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const ug_mobile_money =  async () =>{
+const ug_mobile_money = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-1585230950508',
+      amount: '1500',
+      email: 'olufemi@flw.com',
+      phone_number: '054709929220',
+      currency: 'UGX',
+      fullname: 'Olufemi Obafunmiso',
+      redirect_url: 'https://rave-webhook.herokuapp.com/receivepayment',
+      voucher: '128373',
+      network: 'MTN',
+    };
 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-1585230950508",
-            "amount": "1500",
-            "email": "olufemi@flw.com",
-            "phone_number": "054709929220",
-            "currency": "UGX",
-            "fullname": "Olufemi Obafunmiso",
-            "redirect_url": "https://rave-webhook.herokuapp.com/receivepayment",
-            "voucher": "128373",
-            "network": "MTN"
-        }
-
-       const response =  await flw.MobileMoney.uganda(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                            
-   
-}
+    const response = await flw.MobileMoney.uganda(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 ug_mobile_money();
 ```
 
 Sample Response
+
 ```javascript
 {
     "status": "success",
@@ -742,35 +737,34 @@ Sample Response
 **Redirect customer to the redirect link returned in the charge initiation response.**
 **NB: OTP on staging (TEST MODE) is `123456`**
 
-
 ## Francophone mobile money
 
 This describes how to collect payments via mobile money for Franc (XAF or XOF). We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/francophone-mobile-money).
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const franc_mobile_money =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref": 'test321',
-            "amount": '10',
-            "currency": 'XAF',
-            "country": 'CM',
-            "email": 'stefan.wexler@hotmail.eu',
-            "phone_number": '23700000020',
-            "fullname": 'Yolande Aglaé Colbert',
-        }
-       const response =  await flw.MobileMoney.franco_phone(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                            
-   
-}
+const franc_mobile_money = async () => {
+  try {
+    const payload = {
+      tx_ref: 'test321',
+      amount: '10',
+      currency: 'XAF',
+      country: 'CM',
+      email: 'stefan.wexler@hotmail.eu',
+      phone_number: '23700000020',
+      fullname: 'Yolande Aglaé Colbert',
+    };
+    const response = await flw.MobileMoney.franco_phone(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 franc_mobile_money();
 ```
@@ -823,31 +817,32 @@ Sample Response
 
 ## Zambia mobile money
 
-This describes how to collect payments via  Zambia  mobile money. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/zambia-mobile-money).
+This describes how to collect payments via Zambia mobile money. We go into more details on the payment flow itself [here](https://developer.flutterwave.com/docs/direct-charge/zambia-mobile-money).
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const zambia_mobile_money =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-15852113s09v5050e8",
-            "amount": "1500",
-            "currency": "ZMW",
-            "email": "olufemi@flw.com",
-            "phone_number": "054709929220",
-            "fullname": "Olufemi Obafunmiso",
-            "order_id": "URF_MMGH_1585323540079_5981535" //Unique identifier for the mobilemoney transaction to be provided by the merchant
-        }
-       const response =  await flw.MobileMoney.zambia(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                               
-}
+const zambia_mobile_money = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-15852113s09v5050e8',
+      amount: '1500',
+      currency: 'ZMW',
+      email: 'olufemi@flw.com',
+      phone_number: '054709929220',
+      fullname: 'Olufemi Obafunmiso',
+      order_id: 'URF_MMGH_1585323540079_5981535', //Unique identifier for the mobilemoney transaction to be provided by the merchant
+    };
+    const response = await flw.MobileMoney.zambia(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 zambia_mobile_money();
 ```
@@ -866,38 +861,40 @@ Sample Response
     }
 }
 ```
+
 ## Tanzania mobile money
 
-This describes how to collect payments via  Tanzania  mobile money. You can get more information on Tanzania mobile money [here](https://developer.flutterwave.com/reference/endpoints/charge#tanzania-mobile-money)
+This describes how to collect payments via Tanzania mobile money. You can get more information on Tanzania mobile money [here](https://developer.flutterwave.com/reference/endpoints/charge#tanzania-mobile-money)
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const tanzania_mobile_money =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref":"MC-158523s09v5050e8",
-            "amount":"150",
-            "currency":"TZS",
-            "network":"Halopesa",
-            "email":"user@example.com",
-            "phone_number":"0782835136",
-            "fullname":"Yolande Aglaé Colbert",
-            "client_ip":"154.123.220.1",
-            "device_fingerprint":"62wd23423rq324323qew1",
-            "meta":{
-               "flightID":"213213AS"
-                  }
-        }
-       const response =  await flw.MobileMoney.tanzania(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                               
-}
+const tanzania_mobile_money = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-158523s09v5050e8',
+      amount: '150',
+      currency: 'TZS',
+      network: 'Halopesa',
+      email: 'user@example.com',
+      phone_number: '0782835136',
+      fullname: 'Yolande Aglaé Colbert',
+      client_ip: '154.123.220.1',
+      device_fingerprint: '62wd23423rq324323qew1',
+      meta: {
+        flightID: '213213AS',
+      },
+    };
+    const response = await flw.MobileMoney.tanzania(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 tanzania_mobile_money();
 ```
@@ -945,27 +942,28 @@ This describes how to collect payments via enaira. We go into more details on th
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const eNaira =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref":"MC-TEST-123456",
-            "amount":"100",
-            "currency":"NGN",
-            "email":"user@example.com",
-            "fullname":"Yemi Desola",
-            "phone_number":"09000000000",
-            "redirect_url":"https://flutterwave.ng"
-        }
-       const response =  await flw.Charge.enaira(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                               
-}
+const eNaira = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-TEST-123456',
+      amount: '100',
+      currency: 'NGN',
+      email: 'user@example.com',
+      fullname: 'Yemi Desola',
+      phone_number: '09000000000',
+      redirect_url: 'https://flutterwave.ng',
+    };
+    const response = await flw.Charge.enaira(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 eNaira();
 ```
@@ -1019,38 +1017,39 @@ This describes how to collect payments via Apple Pay. We go into more details on
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const applePay =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref":"MC-TEST-123456",
-            "amount":"10",
-            "currency":"USD",
-            "email": "user@example.com",
-            "fullname": "Yolande Aglaé Colbert",
-            "redirect_url":"https://flutterwave.ng",
-            "client_ip":"192.168.0.1",
-            "device_fingerprint":"gdgdhdh738bhshsjs",
-            "billing_zip":"15101",
-            "billing_city":"allison park",
-            "billing_address":"3563 Huntertown Rd",
-            "billing_state":"Pennsylvania",
-            "billing_country":"US",
-            "phone_number":"09012345678",
-            "meta":{
-                "metaname":"testmeta",
-                "metavalue":"testvalue"
-            }
-        }
-       const response =  await flw.Charge.applepay(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                               
-}
+const applePay = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-TEST-123456',
+      amount: '10',
+      currency: 'USD',
+      email: 'user@example.com',
+      fullname: 'Yolande Aglaé Colbert',
+      redirect_url: 'https://flutterwave.ng',
+      client_ip: '192.168.0.1',
+      device_fingerprint: 'gdgdhdh738bhshsjs',
+      billing_zip: '15101',
+      billing_city: 'allison park',
+      billing_address: '3563 Huntertown Rd',
+      billing_state: 'Pennsylvania',
+      billing_country: 'US',
+      phone_number: '09012345678',
+      meta: {
+        metaname: 'testmeta',
+        metavalue: 'testvalue',
+      },
+    };
+    const response = await flw.Charge.applepay(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 applePay();
 ```
@@ -1105,37 +1104,38 @@ This describes how to collect payments via Google Pay. We go into more details o
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
-const googlePay =  async () =>{
- 
-    try {
-
-        const payload = {
-            "tx_ref": "MC-TEST-1234568_success_mock",
-            "amount": "10",
-            "currency": "USD",
-            "email": "user@example.com",
-            "fullname": "Yolande Aglaé Colbert",
-            "redirect_url": "https://flutterwave.ng",
-            "client_ip": "192.168.0.1",
-            "device_fingerprint": "gdgdhdh738bhshsjs",
-            "billing_zip": "15101",
-            "billing_city": "allison park",
-            "billing_address": "3563 Huntertown Rd",
-            "billing_state": "Pennsylvania",
-            "billing_country": "US",
-            "meta": {
-                "metaname": "testmeta",
-                "metavalue": "testvalue"
-            }
-        }
-       const response =  await flw.Charge.googlepay(payload)
-       console.log(response);
-    } catch (error) {
-        console.log(error)
-    }                               
-}
+const googlePay = async () => {
+  try {
+    const payload = {
+      tx_ref: 'MC-TEST-1234568_success_mock',
+      amount: '10',
+      currency: 'USD',
+      email: 'user@example.com',
+      fullname: 'Yolande Aglaé Colbert',
+      redirect_url: 'https://flutterwave.ng',
+      client_ip: '192.168.0.1',
+      device_fingerprint: 'gdgdhdh738bhshsjs',
+      billing_zip: '15101',
+      billing_city: 'allison park',
+      billing_address: '3563 Huntertown Rd',
+      billing_state: 'Pennsylvania',
+      billing_country: 'US',
+      meta: {
+        metaname: 'testmeta',
+        metavalue: 'testvalue',
+      },
+    };
+    const response = await flw.Charge.googlepay(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 googlePay();
 ```

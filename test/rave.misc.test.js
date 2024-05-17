@@ -173,16 +173,16 @@ describe('#Rave Misc', function () {
         message: 'Bvn verification initiated',
         data: {
           url: 'https://nibss-bvn-consent-management.dev-flutterwave.com/cms/BvnConsent?session=MWNkNDI4ZWYtMjgwNy00ZjA1LWE5NzUtNzUyZGUyZDRjZWQz',
-          reference: 'FLW71DC60942BAD76D2BD5B4E'
-        }
+          reference: 'FLW71DC60942BAD76D2BD5B4E',
+        },
       },
     });
 
     var payload = {
-      bvn: "12347832211",
-      firstname: "Lyra",
-      lastname: "Balacqua",
-      redirect_url: "https://example-url.company.com"
+      bvn: '12347832211',
+      firstname: 'Lyra',
+      lastname: 'Balacqua',
+      redirect_url: 'https://example-url.company.com',
     };
 
     var resp = await miscInstance.bvn(payload);
@@ -201,24 +201,26 @@ describe('#Rave Misc', function () {
   it('should verify BVN consent and return success message', async function () {
     this.timeout(10000);
 
-    const resolveVerifyBVNSuccessStub = sinon.stub(miscInstance, 'verifybvn').resolves({
-      body: {
-        status: 'success',
-        message: 'Bvn details fetched',
-        data: {
-          first_name: 'Lyra',
-          last_name: 'Balacqua',
-          status: 'INITIATED',
-          reference: 'FLW71DC60942BAD76D2BD5B4E',
-          callback_url: null,
-          bvn_data: null,
-          created_at: '2024-02-16T08:28:10.000Z'
-        }
-      },
-    });
+    const resolveVerifyBVNSuccessStub = sinon
+      .stub(miscInstance, 'verifybvn')
+      .resolves({
+        body: {
+          status: 'success',
+          message: 'Bvn details fetched',
+          data: {
+            first_name: 'Lyra',
+            last_name: 'Balacqua',
+            status: 'INITIATED',
+            reference: 'FLW71DC60942BAD76D2BD5B4E',
+            callback_url: null,
+            bvn_data: null,
+            created_at: '2024-02-16T08:28:10.000Z',
+          },
+        },
+      });
 
     var payload = {
-      reference: "FLW71DC60942BAD76D2BD5B4E"
+      reference: 'FLW71DC60942BAD76D2BD5B4E',
     };
 
     var resp = await miscInstance.verifybvn(payload);

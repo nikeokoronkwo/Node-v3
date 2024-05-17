@@ -7,11 +7,11 @@
 We recommend reading the main readme first, to understand the requirements for using the library and how to initiate this in your apps. This guide assumes you've read that.
 
 Manage transfer beneficiaries via any of these methods:
+
 1. [Create a Beneficiary](#create-a-beneficiary)
 2. [Delete a Beneficiary](#delete-a-beneficiary)
 3. [Fetch a Beneficiary](#fetch-a-beneficiary)
 4. [Fetch all Beneficiaries](#list-all-beneficiaries)
-
 
 ## Create a beneficiary
 
@@ -67,21 +67,19 @@ This describes how to get all beneficiaries
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
-
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const fetchAllBeneficiary = async () => {
-
-    try {
-       
-        const response = await flw.Beneficiary.fetch_all()
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
-
+  try {
+    const response = await flw.Beneficiary.fetch_all();
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 fetchAllBeneficiary();
 ```
@@ -185,7 +183,6 @@ Sample Response
 }
 ```
 
-
 ## Fetch a beneficiary
 
 This describes how to get a single transfer beneficiary details
@@ -193,26 +190,22 @@ This describes how to get a single transfer beneficiary details
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
-
-
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const fetchBeneficiary = async () => {
-
-    try {
-        const payload = {
-            
-            "id":"2923" //This is the unique identifier for the beneficiary you intend to fetch. It is returned in the call to create a beneficiary as data.id
-            
-        }
-        const response = await flw.Beneficiary.fetch(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
-
+  try {
+    const payload = {
+      id: '2923', //This is the unique identifier for the beneficiary you intend to fetch. It is returned in the call to create a beneficiary as data.id
+    };
+    const response = await flw.Beneficiary.fetch(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 fetchBeneficiary();
 ```
@@ -239,29 +232,25 @@ Sample Response
 
 This describes how to delete a transfer beneficiary
 
-
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
-
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const delBeneficiary = async () => {
-
-    try {
-        const payload = {
-            
-            "id":"4150" //This is the unique identifier for the beneficiary you intend to fetch. It is returned in the call to create a beneficiary as data.id
-            
-        }
-        const response = await flw.Beneficiary.delete(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
-
+  try {
+    const payload = {
+      id: '4150', //This is the unique identifier for the beneficiary you intend to fetch. It is returned in the call to create a beneficiary as data.id
+    };
+    const response = await flw.Beneficiary.delete(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 delBeneficiary();
 ```
@@ -275,4 +264,3 @@ Sample Response
   "data": "Deleted"
 }
 ```
-

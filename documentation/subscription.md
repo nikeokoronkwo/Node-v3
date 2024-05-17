@@ -7,6 +7,7 @@
 We recommend reading the main readme first, to understand the requirements for using the library and how to initiate this in your apps. This guide assumes you've read that.
 
 Manage User subscriptions via any of these methods:
+
 1. [Get all Subscriptions](#get-all-subscriptions)
 2. [Fetch a Subscription](#fetch-subscriptions-with-customers-email)
 3. [Cancel a Subscription](#cancel-a-subscription)
@@ -22,7 +23,7 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 const fetchSubscription = async () => {
 
     try {
-        
+
         const response = await flw.Subscription.fetch_all()
         console.log(response);
     } catch (error) {
@@ -78,19 +79,21 @@ This describes how to fetch subscriptions made by a single user.
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 const getSubscription = async () => {
-
-    try {
-        const data = {
-            "email": "cornelius@flutterwavego.com"
-        }
-        const response = await flw.Subscription.get(data)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-}
+  try {
+    const data = {
+      email: 'cornelius@flutterwavego.com',
+    };
+    const response = await flw.Subscription.get(data);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 getSubscription();
 ```
 
@@ -123,7 +126,6 @@ Sample Response
 }
 ```
 
-
 ## Cancel a subscription
 
 This describes how to cancel a subscription
@@ -131,22 +133,23 @@ This describes how to cancel a subscription
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const cancelSubscription = async () => {
+  try {
+    const payload = {
+      id: '4147', //This is the unique id of the subscription you want to cancel. It is returned in the Get a subscription call as data.id
+    };
 
-    try {
-        const payload={
-            "id":"4147" //This is the unique id of the subscription you want to cancel. It is returned in the Get a subscription call as data.id
-        }
-        
-        const response = await flw.Subscription.cancel(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Subscription.cancel(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 cancelSubscription();
 ```
@@ -178,22 +181,23 @@ This describes how to activate a subscription
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const activateSubscription = async () => {
+  try {
+    const payload = {
+      id: '4147', //This is the unique id of the subscription you want to activate. It is returned in the Get a subscription call as data.id
+    };
 
-    try {
-        const payload={
-            "id":"4147" //This is the unique id of the subscription you want to activate. It is returned in the Get a subscription call as data.id
-        }
-        
-        const response = await flw.Subscription.activate(payload)
-        console.log(response);
-    } catch (error) {
-        console.log(error)
-    }
-
-}
+    const response = await flw.Subscription.activate(payload);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 activateSubscription();
 ```

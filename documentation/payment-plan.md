@@ -7,21 +7,24 @@
 We recommend reading the main readme first, to understand the requirements for using the library and how to initiate this in your apps. This guide assumes you've read that.
 
 Manage Payment Plans via any of these methods:
+
 1. [Create Payment Plan](#create-payment-plan)
 2. [Get a Payment Plan](#get-a-payment-plan)
 3. [Get Payment Plans](#get-payment-plans)
 4. [Update Payment Plan](#update-a-payment-plan)
 5. [Cancel Payment Plan](#cancel-a-payment-plan)
 
+## Create payment plan
 
-##  Create payment plan
-
-This describes  how to create a payment plan
+This describes how to create a payment plan
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const createPaymentPlan = async () => {
   try {
@@ -68,7 +71,10 @@ This describes how to fetch all payment plans on your account
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const fetchAllPlans = async () => {
   try {
@@ -210,7 +216,6 @@ Sample Response
 }
 ```
 
-
 ## Get a payment plan
 
 This describes how to get a single payment plan
@@ -218,7 +223,10 @@ This describes how to get a single payment plan
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const fetchPlan = async () => {
   try {
@@ -263,7 +271,10 @@ This describes how to update an existing payment plan
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const updatePlan = async () => {
   try {
@@ -304,12 +315,16 @@ Sample Response
 ```
 
 ## Cancel a payment plan
+
 This describes how to cancel an existing payment plan
 
 ```javascript
 const Flutterwave = require('flutterwave-node-v3');
 
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY  );
+const flw = new Flutterwave(
+  process.env.FLW_PUBLIC_KEY,
+  process.env.FLW_SECRET_KEY,
+);
 
 const cancelPlan = async () => {
   try {
