@@ -13,7 +13,7 @@
 The major reason for this fork is for the adoption of typescript and type support in the Flutterwave NodeJS Project 
 (see: Flutterwave/Node-v3#156, Flutterwave/Node-v3#139, Flutterwave/Node-v3#69, Flutterwave/Node-v3#64, Flutterwave/Node-v3#25 - Since 2020).
 
-This repo has two branches: This branch uses .d.ts files and JSDoc for adding type intellisense to the code. For a full typescript implementation see the dev branch.
+This repo has two branches: This branch uses .d.ts files and JSDoc for adding type intellisense to the code. For a full typescript implementation see the ts branch.
 
 ## Introduction
 
