@@ -1,7 +1,14 @@
+const RaveBase = require('../../lib/rave.base');
 const { logger } = require('../../utils/logger');
 const { validator } = require('../../utils/validator');
 const { listSchema } = require('../schema/base');
 
+/**
+ * @async
+ * @param {*} data 
+ * @param {RaveBase} _rave 
+ * @returns 
+ */
 async function service(data, _rave) {
   validator(listSchema, data);
   data.method = 'GET';

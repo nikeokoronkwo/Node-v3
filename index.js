@@ -7,7 +7,7 @@ const ebills = require('./lib/rave.ebills');
 const misc = require('./lib/rave.misc');
 const mobile_money = require('./lib/rave.mobile_money');
 const security = require('./lib/security');
-// const custom = require("./lib/rave.custom");
+const custom = require("./lib/rave.custom");
 const otps = require('./lib/rave.otps');
 const payment_plan = require('./lib/rave.payment_plan');
 const settlement = require('./lib/rave.settlements');
@@ -28,8 +28,6 @@ class Rave {
    * @param {*} public_key
    * @param {*} public_secret
    * @param {*} base_url_or_production_flag
-   * @returns {void}
-   * @constructor
    */
   constructor(public_key, public_secret, base_url_or_production_flag) {
     /** @type {base} */

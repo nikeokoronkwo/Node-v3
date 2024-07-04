@@ -20,6 +20,7 @@ describe('#Rave Bank', function () {
   const secret_key = process.env.SECRET_KEY;
   const ravebase = new base(public_key, secret_key);
 
+  /** @type {banks} */
   let banksInstance;
   let bankStub;
 
