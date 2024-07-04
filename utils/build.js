@@ -2,6 +2,7 @@ const joi = require('joi');
 const { listSchema } = require('../services/schema/base');
 const { logger } = require('./logger');
 const { validator } = require('./validator');
+const RaveBase = require('../lib/rave.base');
 
 // make parameter required in the listSchema
 function enforceRequired(schema, paramList) {
@@ -27,17 +28,26 @@ function enforceRequired(schema, paramList) {
   return schema;
 }
 
-// Graciously handle fetch queries with empty payload
+/**
+ * Graciously handle fetch queries with empty payload
+ * @param {?*} param
+ * @param {string} name 
+ * @param {string} uri 
+ * @param {RaveBase} _rave 
+ * @returns {Promise}
+ */
 async function handleEmptyFetch(param, name, uri, _rave) {
   if (param === undefined || param === null) {
     param = {};
-    param.method = 'GET';
-    const { body: response } = await _rave.request(uri, param);
-    logger(name, _rave);
-    return response;
+    // duplicate code
+    // param.method = 'GET';
+    // const { body: response } = await _rave.request(uri, param);
+    // logger(name, _rave);
+    // return response;
+  } else {
+    validator(listSchema, param);
   }
-
-  validator(listSchema, param);
+  
   param.method = 'GET';
   const { body: response } = await _rave.request(uri, param);
   logger(name, _rave);

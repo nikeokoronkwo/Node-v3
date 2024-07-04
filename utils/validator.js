@@ -2,10 +2,10 @@ const joi = require('joi');
 const { validationError } = require('./error');
 
 /**
- * 
+ * Validates a given schema ({@link joi.ObjectSchema}) over the given data passed
  * @param {joi.ObjectSchema} schema 
  * @param {any} data 
- * @throws {import('joi').ValidationError} If the schema isn't valid
+ * @throws {joi.ValidationError} If the schema isn't valid
  */
 exports.validator = (schema, data) => {
   const validation = schema.validate(data);

@@ -14,3 +14,5 @@ export interface RaveBaseReqReturn extends CoreOptions {
 }
 
 export type RaveBasePayload = any;
+
+export type RaveHandler = (data: any) => Promise<any>;
