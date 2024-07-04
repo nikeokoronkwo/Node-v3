@@ -25,9 +25,9 @@ const virtual_card = require('./lib/rave.virtual_cards');
 class Rave {
   /**
    * Constructor to instantiate new rave
-   * @param {*} public_key
-   * @param {*} public_secret
-   * @param {*} base_url_or_production_flag
+   * @param {string} public_key
+   * @param {string} public_secret
+   * @param {string} base_url_or_production_flag
    */
   constructor(public_key, public_secret, base_url_or_production_flag) {
     /** @type {base} */
