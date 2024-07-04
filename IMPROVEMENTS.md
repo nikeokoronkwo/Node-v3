@@ -1,0 +1,2 @@
+# Some Improvements that can be made
+- [ ] The files in the `services/` folder all export the same kind of default function, so instead of having to make a separate definition, just export it as is and declare the type as well.
