@@ -1,5 +1,7 @@
+const RaveBase = require('../../lib/rave.base');
 const { handleEmptyFetch } = require('../../utils/build');
 
+/** @type {import('../services').ServiceHandler} */
 async function service(data, _rave) {
   return handleEmptyFetch(
     data,
