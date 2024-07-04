@@ -1,7 +1,9 @@
+const RaveBase = require('../../lib/rave.base');
 const { logger } = require('../../utils/logger');
 const { validator } = require('../../utils/validator');
 const { beneficiarySchema } = require('../schema/create');
 
+/** @type {import('../services').ServiceHandler} */
 async function service(data, _rave) {
   validator(beneficiarySchema, data);
   const { body: response } = await _rave.request(`v3/beneficiaries`, data);

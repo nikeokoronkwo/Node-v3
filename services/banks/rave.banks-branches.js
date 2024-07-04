@@ -4,12 +4,7 @@ const { logger } = require('../../utils/logger');
 const { validator } = require('../../utils/validator');
 const { fetchSchema } = require('../schema/base');
 
-/**
- * @async
- * @param {*} data 
- * @param {RaveBase} _rave 
- * @returns {*}
- */
+/** @type {import('../services').ServiceHandler} */
 async function service(data, _rave) {
   validator(fetchSchema, data);
   data.method = 'GET';
