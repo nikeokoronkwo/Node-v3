@@ -1,5 +1,5 @@
 const axios = require('axios');
-const package = require('../package.json');
+const packageJson = require('../package.json');
 const { createLogger, format, transports } = require('winston');
 const RaveBase = require('../lib/rave.base');
 const { combine, timestamp, colorize, errors, printf, json } = format;
@@ -16,7 +16,7 @@ function logger(name, _rave) {
     {
       publicKey: _rave.getPublicKey(),
       language: 'NodeJs v3',
-      version: package.version,
+      version: packageJson.version,
       title: 'Incoming call',
       message: name,
     },
